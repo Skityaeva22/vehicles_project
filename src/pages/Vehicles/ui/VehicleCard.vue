@@ -1,10 +1,13 @@
 <script setup>
 import SuccessIcon from "@/assets/icons/SuccessIcon.vue"
 import { defineProps } from "vue";
+import moment from "moment";
 
 const props = defineProps({
   vehicle: Object
 })
+
+const now = moment();
 
 function getVINText(vehicle) {
   if (!vehicle?.vin_postfix && !vehicle?.vin)
@@ -62,7 +65,9 @@ function getVINText(vehicle) {
         <ElTag v-else color="#EDEDED" type="info">
           <span class="tag-info">{{ props.vehicle?.angles_count }}/30</span>
         </ElTag>
-        <span class="card-footer-text">3 days left</span>
+        <span v-if="props.vehicle?.created_at" class="card-footer-text">
+          {{ now.diff(props.vehicle.created_at, 'years') }} years left
+        </span>
       </div>
     </div>
   </ElCard>
