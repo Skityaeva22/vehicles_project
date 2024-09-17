@@ -1,0 +1,70 @@
+@font-face {
+  font-family: "DM Sans";
+  src: url("./fonts/DMSans-Regular.ttf");
+}
+
+body {
+  font-family: "DM Sans";
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+  word-wrap: break-word;
+  background-color: var(--el-bg-color);
+  margin: 0;
+  color: #293148;
+}
+
+p {
+  margin: 0;
+}
+
+.el-menu-item {
+  color: #ffffff73;
+  gap: 20px;
+}
+
+.el-menu-item.is-active {
+  color: white;
+  background-color: #ffffff33;
+}
+
+.el-menu-item:hover {
+  background-color: #ffffff33;
+}
+
+.el-tag {
+  padding: 4px 14px 4px 14px;
+  height: 30px;
+  border: none;
+  --el-icon-size: 16px;
+}
+
+.el-input--large .el-input__wrapper {
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.el-select--large .el-select__wrapper {
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.el-card__body {
+  padding: 15px;
+}
+
+.el-card {
+  border-color: #f3f6f8;
+  border-radius: 10px;
+  background-color: #f3f6f8;
+}
+
+.el-divider--horizontal {
+  margin: 0 0;
+}
+
+.el-space {
+  align-items: baseline !important;
+}
