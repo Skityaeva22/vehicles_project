@@ -81,7 +81,7 @@ onUnmounted(() => {
         <ElIcon color="#FFFFFF" :size="24">
           <PlusIcon />
         </ElIcon>
-        <span>ADD VECHICLE</span>
+        <span>ADD VEHICLE</span>
       </ElButton>
     </div>
     <ElScrollbar style="padding-bottom: 30px">

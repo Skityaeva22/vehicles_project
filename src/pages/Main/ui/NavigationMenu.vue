@@ -34,7 +34,7 @@ onMounted(() => {
       <ElIcon :size="24">
         <VehiclesIcon />
       </ElIcon>
-      <span class="item-text">Vechicles</span>
+      <span class="item-text">Vehicles</span>
     </ElMenuItem>
     <ElMenuItem :index="ROUTER_NAMES.MAIN">
       <ElIcon :size="24">
