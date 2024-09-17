@@ -3,9 +3,9 @@ import _ from "lodash";
 import { onMounted, onUnmounted } from "vue";
 import SearchIcon from "@/assets/icons/SearchIcon.vue";
 import PlusIcon from "@/assets/icons/PlusIcon.vue";
-import SuccessIcon from "@/assets/icons/SuccessIcon.vue"
 import { useVehiclesStore } from "@/store/vehicles-store";
 import { storeToRefs } from "pinia";
+import VehicleCard from './VehicleCard.vue'
 
 const vehiclesStore = useVehiclesStore();
 const {
@@ -24,17 +24,6 @@ const handleSearchVehicles = _.debounce(async () => {
 async function handleChangeParamsPerPage() {
   params.value.page = 1;
   await vehiclesStore.fetchVehicles();
-}
-
-function getVINText(vehicle) {
-  if (!vehicle?.vin_postfix && !vehicle?.vin)
-    return 'WDB 1400321A333419'
-
-  if (vehicle?.vin_postfix && vehicle?.vin)
-    return `${vehicle.vin_postfix} ${vehicle.vin}`
-  else if (!vehicle?.vin_postfix && vehicle?.vin)
-    return `${vehicle.vin}`
-  else return `${vehicle.vin_postfix}`
 }
 
 onMounted(async () => {
@@ -86,55 +75,12 @@ onUnmounted(() => {
     </div>
     <ElScrollbar style="padding-bottom: 30px">
       <ElSpace :loading="isLoading" wrap :size="30" class="space">
-        <ElCard
+        <div
           v-for="vehicle in vehicles"
           :key="vehicle.id"
-          shadow="never"
-          style="width: 354px; height: 335px"
         >
-          <div class="more-icon">
-            <ElIcon :size="24" color="#29314899">
-              <MoreFilled />
-            </ElIcon>
-          </div>
-          <div class="card-main-content">
-            <div
-              style="
-                padding-bottom: 10px;
-                display: flex;
-                justify-content: center;
-              "
-            >
-              <ElImage
-                :src="vehicle?.photo?.url"
-                class="image"
-              >
-                <template #error>
-                  <ElIcon :size="30" color="#29314899"><Picture /></ElIcon>
-                </template>
-              </ElImage>
-            </div>
-            <p class="card-header">
-              {{ vehicle?.vehicle_name ?? 'Mercedes-Benz C-Class' }}
-            </p>
-            <p class="card-description">
-              {{ getVINText(vehicle) }}
-            </p>
-            <ElDivider />
-            <div class="page-space">
-              <ElTag v-if="vehicle?.angles_count === 30" color="#E4F5DD" type="info">
-                <p class="tag-success">
-                  <ElIcon :size="16"><SuccessIcon /></ElIcon>
-                  <span>{{ vehicle?.angles_count }}/30</span>
-                </p>
-              </ElTag>
-              <ElTag v-else color="#EDEDED" type="info">
-                <span class="tag-info">{{ vehicle?.angles_count }}/30</span>
-              </ElTag>
-              <span class="card-footer-text">3 days left</span>
-            </div>
-          </div>
-        </ElCard>
+          <VehicleCard :vehicle="vehicle" />
+        </div>
       </ElSpace>
     </ElScrollbar>
     <div>
@@ -211,38 +157,6 @@ onUnmounted(() => {
   padding: 0;
 }
 
-.more-icon {
-  display: flex;
-  justify-content: end;
-}
-
-.card-main-content {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.card-header {
-  color: #293148;
-  font-size: 20px;
-  line-height: 22px;
-  font-weight: 700;
-}
-
-.card-description {
-  color: #29314899;
-  font-size: 15px;
-  line-height: 20px;
-  font-weight: 500;
-}
-
-.card-footer-text {
-  color: #29314899;
-  font-size: 15px;
-  line-height: 16px;
-  font-weight: 500;
-}
-
 .page-footer {
   position: absolute;
   bottom: 0;
@@ -273,23 +187,6 @@ onUnmounted(() => {
   }
 }
 
-.tag-info {
-  font-size: 15px;
-  line-height: 22px;
-  font-weight: 700;
-  color: #293148cc;
-}
-
-.tag-success {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 15px;
-  line-height: 22px;
-  font-weight: 700;
-  color: #7fc75e;
-}
-
 .space {
   @media (319px<height<=650px) {
     height: 50vh;
@@ -302,13 +199,5 @@ onUnmounted(() => {
   @media (height>900px) {
     height: 70vh;
   }
-}
-
-.image {
-  width: 260px;
-  height: 135px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style>
