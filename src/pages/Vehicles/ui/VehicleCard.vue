@@ -1,6 +1,6 @@
 <script setup>
 import SuccessIcon from "@/assets/icons/SuccessIcon.vue"
-import { defineProps } from "vue";
+import { defineProps, computed } from "vue";
 import moment from "moment";
 
 const props = defineProps({
@@ -9,16 +9,19 @@ const props = defineProps({
 
 const now = moment();
 
-function getVINText(vehicle) {
+const vinText = computed(() => {
+  const vehicle = props.vehicle;
+
   if (!vehicle?.vin_postfix && !vehicle?.vin)
-    return 'WDB 1400321A333419'
+    return 'WDB 1400321A333419';
 
   if (vehicle?.vin_postfix && vehicle?.vin)
-    return `${vehicle.vin_postfix} ${vehicle.vin}`
+    return `${vehicle.vin_postfix} ${vehicle.vin}`;
   else if (!vehicle?.vin_postfix && vehicle?.vin)
-    return `${vehicle.vin}`
-  else return `${vehicle.vin_postfix}`
-}
+    return `${vehicle.vin}`;
+  else 
+    return `${vehicle.vin_postfix}`;
+});
 </script>
 
 <template>
@@ -52,7 +55,7 @@ function getVINText(vehicle) {
         {{ props.vehicle?.vehicle_name ?? 'Mercedes-Benz C-Class' }}
       </p>
       <p class="card-description">
-        {{ getVINText(props.vehicle) }}
+        {{ vinText }}
       </p>
       <ElDivider />
       <div class="card-space">
@@ -66,7 +69,7 @@ function getVINText(vehicle) {
           <span class="tag-info">{{ props.vehicle?.angles_count }}/30</span>
         </ElTag>
         <span v-if="props.vehicle?.created_at" class="card-footer-text">
-          {{ now.diff(props.vehicle.created_at, 'years') }} years left
+          {{ now.diff(props.vehicle.created_at * 1000, 'years') }} years left
         </span>
       </div>
     </div>
